@@ -397,7 +397,7 @@ public class AgentContainer
 			 * Rebuild the border of the biofilm and compute erosion-time for
 			 * the whole biofilm
 			 */
-			_levelset.refreshBorder(true, mySim);
+			_levelset.refreshBorder(false, mySim);
 			_levelset.computeLevelSet(mySim);
 			/*
 			 * On grid elements on the border apply a probabilistic erosion
@@ -414,7 +414,7 @@ public class AgentContainer
 					try
 					{
 						LogFile.writeLogAlways("Trying to removeOnBorder");
-						removeOnBorder(this);
+						//removeOnBorder(this);
 					}
 					catch (Exception e)
 					{

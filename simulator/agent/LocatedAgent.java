@@ -749,8 +749,8 @@ public abstract class LocatedAgent extends ActiveAgent implements Cloneable
 		if ( !(_agentGrid.is3D) && !(_movement.z.equals(0.0)) )
 		{
 			_movement.z = 0.0;
-			_movement.reset();
-			LogFile.writeLog("Agent tried to move in Z direction!");
+			//_movement.reset();
+			//LogFile.writeLog("Agent tried to move in Z direction!");
 		}
 		/*
 		 * No movement planned, finish here.
@@ -1153,6 +1153,7 @@ public abstract class LocatedAgent extends ActiveAgent implements Cloneable
 	public Boolean isAttached()
 	{
 		return _isAttached;
+//		return true;// _isAttached;
 	}
 	
 	/**

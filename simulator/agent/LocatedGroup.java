@@ -255,7 +255,12 @@ public class LocatedGroup
 			resetMove();
 		else
 		{
-			move = pressure.getGradient(this.cc);
+			if (agentGrid.is3D){ 
+				move = pressure.getGradient(this.cc);
+			}
+			else {
+				move = pressure.getGradient2D(this.cc);
+			}
 			if ( move.isValid() )
 				move.times(-deltaT);
 			else
