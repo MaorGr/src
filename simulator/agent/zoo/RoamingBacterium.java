@@ -1,10 +1,8 @@
 package simulator.agent.zoo;
 
-import java.math.BigInteger;
-
 import simulator.Simulator;
 import simulator.geometry.ContinuousVector;
-import simulator.World;
+import utils.XMLParser;
 
 public class RoamingBacterium extends Bacterium 
 {
@@ -26,6 +24,24 @@ public class RoamingBacterium extends Bacterium
 	}
 	
 	/**
+	 * \brief Creates a Bacterium agent from the parameters specified in the
+	 * XML protocol file.
+	 * 
+	 * @param aSim	The simulation object used to simulate the conditions
+	 * specified in the protocol file.
+	 * @param aSpeciesRoot	A species mark-up within the specified protocol
+	 * file.
+	 */
+	@Override
+	public void initFromProtocolFile(Simulator aSim, XMLParser aSpeciesRoot) 
+	{
+		// Initialisation of the Active agent
+		super.initFromProtocolFile(aSim, aSpeciesRoot);
+		
+		init();
+	}
+	
+	/**
 	 * \brief Create a new Bacterium agent (who a priori is registered in at
 	 * least one container).
 	 * 
@@ -35,14 +51,28 @@ public class RoamingBacterium extends Bacterium
 	public void createNewAgent(ContinuousVector position) 
 	{
 		
-		if (Math.random() < 0.05) {
-			_Roaming = true;
-		} else {
-			_Roaming = false;
-		}
+//		if (_generation == 0) {
+//		//if (Math.random() < 0.05) {
+//			_Roaming = true;
+//		} else {
+//			_Roaming = false;
+//		}
 			
 		super.createNewAgent(position);
 			
+	}
+	
+	/**
+	 * \brief Return the set of parameters that is associated with the object
+	 * of this species.
+	 * 
+	 * @return Object of BacteriumParam that stores the parameters associated
+	 * with this species.
+	 */
+	@Override
+	public RoamBactParam getSpeciesParam()
+	{
+		return (RoamBactParam) _speciesParam;
 	}
 	
 	/**
@@ -52,12 +82,27 @@ public class RoamingBacterium extends Bacterium
 	@Override
 	public void init() 
 	{
-		if (Math.random() < 0.05) {
-			_Roaming = true;
-		} else {
-			_Roaming = false;
-		}
-		super.init();
+		// after being created, determine roaming.
+		double detachmentChance = getSpeciesParam().detachmentChance;
+		_Roaming = (Math.random() < detachmentChance);
+
+	}
+	
+	/**
+	 * \brief With it determined that cell division will occur, create a new
+	 * agent from the existing one.
+	 * 
+	 * @throws CloneNotSupportedException Thrown if the agent cannot be cloned.
+	 */
+	@Override
+	public void makeKid() throws CloneNotSupportedException
+	{
+		super.makeKid();
+		
+		// after kid is created, determine roaming.
+		double detachmentChance = getSpeciesParam().detachmentChance;
+		_Roaming = (Math.random() < detachmentChance);
+		
 	}
 	
 	/**

@@ -6,9 +6,7 @@ import utils.XMLParser;
 
 public class RoamBactParam extends BacteriumParam {
 
-	public double xMax;
-	public double yMax;
-	public double zMax;
+	public double detachmentChance;
 	
 	/**
 	 * \brief Creates a parameter storage object for the Bacterium EPS species type
@@ -33,13 +31,8 @@ public class RoamBactParam extends BacteriumParam {
 		super.init(aSim,aSpeciesRoot,speciesDefaults);
 		Double value;
 		
-		value = getSpeciesParameterDouble("roamX", aSpeciesRoot, speciesDefaults);
-		xMax = (value == XMLParser.nullDbl) ? xMax : value;
-		value = getSpeciesParameterDouble("roamX", aSpeciesRoot, speciesDefaults);
-		yMax = (value == XMLParser.nullDbl) ? yMax : value;
-		value = getSpeciesParameterDouble("roamX", aSpeciesRoot, speciesDefaults);
-		zMax = (value == XMLParser.nullDbl) ? zMax : value;
-			
+		value = getSpeciesParameterDouble("detachmentChance", aSpeciesRoot, speciesDefaults);
+		detachmentChance = (value == XMLParser.nullDbl) ? 0.05 : value;
 	}
 	
 	
