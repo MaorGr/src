@@ -51,12 +51,6 @@ public class RoamingBacterium extends Bacterium
 	public void createNewAgent(ContinuousVector position) 
 	{
 		
-//		if (_generation == 0) {
-//		//if (Math.random() < 0.05) {
-//			_Roaming = true;
-//		} else {
-//			_Roaming = false;
-//		}
 			
 		super.createNewAgent(position);
 			
@@ -102,8 +96,47 @@ public class RoamingBacterium extends Bacterium
 		// after kid is created, determine roaming.
 		double detachmentChance = getSpeciesParam().detachmentChance;
 		_Roaming = (Math.random() < detachmentChance);
+
+		this.relocate(false);
+
 		
 	}
+	
+	
+	/**
+	 * \brief Called by Bacterium.createAgent and to obtain another instance
+	 * of the same species (totally independent).
+	 * 
+	 * The returned agent is NOT registered.
+	 * 
+	 * @throws CloneNotSupportedException	Exception thrown if the object
+	 * cannot be cloned
+	 */
+	@Override
+	public RoamingBacterium sendNewAgent() throws CloneNotSupportedException 
+	{
+
+		RoamingBacterium baby = (RoamingBacterium)super.sendNewAgent();
+		
+		double detachmentChance = getSpeciesParam().detachmentChance;
+		baby._Roaming = (Math.random() < detachmentChance);
+
+		baby.relocate(false);
+		return baby;
+	}
+	
+	public void relocate(Boolean isParent) {
+		double length_X = _species.domain.length_X;
+		double length_Y = _species.domain.length_Y;
+
+		ContinuousVector position = this.getLocation();
+		position.x = (position.x + 10) % length_X; 
+		position.y = (10.0 * this._generation)  % length_Y;; 
+		this.setLocation(position);
+		_agentGrid.registerMove(this);
+		
+	}
+	
 	
 	/**
 	 * \brief Called at each time step of the simulation to compute mass
@@ -117,7 +150,7 @@ public class RoamingBacterium extends Bacterium
 	protected void internalStep()
 	{
 		
-		if (_Roaming) {
+		if (false && _Roaming) {
 
 			double length_X = _species.domain.length_X;
 			double length_Y = _species.domain.length_Y;
